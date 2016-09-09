@@ -7,6 +7,7 @@ var hillary_count = 7899
 app.get('/', function (req, res) {
   res.send('Hello World!');
 });
+
 app.get('/inct', function (req, res) {
   trump_count += 1;
   res.send('Hello World!');
