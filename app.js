@@ -26,7 +26,7 @@ app.get('/geth', function (req, res) {
   res.send(hillary_count);
 });
 
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!');
+app.listen($PORT, function () {
+  console.log('Example app listening on port', $PORT);
 });
 
