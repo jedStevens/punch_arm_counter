@@ -26,7 +26,7 @@ publicIp.v6().then(ip => {
 
 server.on('listening', function () {
     var address = server.address();
-    console.log('UDP Server listening on ' + address.address + ":" + address.port);
+    console.log('UDP Server listening on ' + ip_addr + ":" + address.port);
 });
 
 server.on('message', function (message, remote) {
