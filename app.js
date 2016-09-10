@@ -4,6 +4,8 @@ var app = express();
 var trump_count = 2796
 var hillary_count = 7899
 
+var port = process.env.PORT
+
 app.get('/', function (req, res) {
   res.send('Hello World!');
 });
@@ -26,7 +28,7 @@ app.get('/geth', function (req, res) {
   res.send(hillary_count);
 });
 
-app.listen($PORT, function () {
-  console.log('Example app listening on port', $PORT);
+app.listen(port, function () {
+  console.log('Example app listening on port', port);
 });
 
