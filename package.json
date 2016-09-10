@@ -1,5 +1,24 @@
 {
   "dependencies": {
-    "express": "^4.14.0"
-  }
+    "express": "^4.14.0",
+    "foreman": "2.0.0"
+  },
+  "name": "counter",
+  "description": "counter",
+  "version": "1.0.0",
+  "main": "app.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jedStevens/punch_arm_counter.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jedStevens/punch_arm_counter/issues"
+  },
+  "homepage": "https://github.com/jedStevens/punch_arm_counter#readme"
 }
