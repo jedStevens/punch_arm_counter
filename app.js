@@ -27,7 +27,7 @@ publicIp.v6().then(ip => {
 server.on('listening', function () {
     var address = server.address();
     console.log('UDP Server listening on ' + ip_addr + ":" + address.port);
-    console.log('Getting environment variable for port: " + PORT);
+    console.log('Getting environment variable for port: ' + PORT);
 });
 
 server.on('message', function (message, remote) {
