@@ -10,7 +10,6 @@ var HOST = '0.0.0.0';
 var dgram = require('dgram');
 var server = dgram.createSocket('udp4');
 
-
 app.get('/', function (req, res) {
   res.send('<p>Trump: ' + trump_count + '\n\nHillary: '+hillary_count+'</p>');
 });
@@ -19,8 +18,19 @@ app.get('/gloryhole', function (req, res) {
   res.send(PORT);
 });
 
+app.get('/get', function (req, res) {
+    res.send(trump_count+","+hillary_count);
+});
+
+app.get('/inc', function (req, res) {
+    trump_count+=req.query.trump;
+    hillary_count+=req.query.hillary;
+    res.send(trump_count+","+hillary_count);
+});
+
 app.listen(PORT, function () {
   console.log('Example app listening on port: ' +PORT);
+  setInterval(saveScores, 30000);
 });
 
 
@@ -52,35 +62,3 @@ function saveScores(){
     console.log("Saved Scores");
     setInterval(saveScores, 30000);
 };
-
-server.on('listening', function () {
-    var address = server.address();
-    console.log('UDP Server listening on ' + address.address + ":" + address.port);
-    setInterval(saveScores, 30000);
-});
-
-server.on('message', function (message, remote) {
-    var message_str = String(message);
-
-    if (message == "PING"){
-        console.log("Ping from: " + remote.address + ':' + remote.port);
-        server.send("ACCEPT"+PORT, remote.port, remote.address);
-        return;
-    }
-    
-    if (message == "GET"){
-        server.send("UPDATE"+trump_count+","+hillary_count, remote.port, remote.address);
-        return;
-    }
-    if (message == "T"){
-        trump_count += 1;
-        return;
-    }
-    if (message =="H"){
-        hillary_count += 1;
-        return;
-    }
-    
-});
-
-server.bind(PORT, HOST);
