@@ -5,7 +5,7 @@ var trump_count = 0;
 var hillary_count = 0;
 
 var PORT = process.env.PORT || 6969;
-var HOST = '127.0.0.1';
+var HOST = '0.0.0.0';
 
 var dgram = require('dgram');
 var server = dgram.createSocket('udp4');
@@ -13,6 +13,10 @@ var server = dgram.createSocket('udp4');
 
 app.get('/', function (req, res) {
   res.send('<p>Trump: ' + trump_count + '\n\nHillary: '+hillary_count+'</p>');
+});
+
+app.get('/gloryhole', function (req, res) {
+  res.send(PORT);
 });
 
 app.listen(PORT, function () {
@@ -79,6 +83,4 @@ server.on('message', function (message, remote) {
     
 });
 
-server.bind(PORT, '0.0.0.0');
-
-
+server.bind(PORT, HOST);
