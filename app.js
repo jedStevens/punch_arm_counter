@@ -35,8 +35,7 @@ server.on('message', function (message, remote) {
 });
 
 server.bind(PORT, '0.0.0.0');
-
-
+console.log("Server running on: " +  ip_addr + " : " + PORT);
 
 /*
 app.get('/', function (req, res) {
