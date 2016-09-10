@@ -1,17 +1,17 @@
 var express = require('express');
 var app = express();
 
-var trump_count = 2796
-var hillary_count = 7899
+var trump_count = 2796;
+var hillary_count = 7899;
 
-var PORT = process.env.PORT
+var PORT = process.env.PORT;
 var HOST = '127.0.0.1';
 
 var dgram = require('dgram');
 var server = dgram.createSocket('udp4');
 
 const publicIp = require('public-ip');
-var ip_addr = ''
+var ip_addr = '';
  
 publicIp.v4().then(ip => {
     console.log(ip);
@@ -27,6 +27,7 @@ publicIp.v6().then(ip => {
 server.on('listening', function () {
     var address = server.address();
     console.log('UDP Server listening on ' + ip_addr + ":" + address.port);
+    console.log('Getting environment variable for port: " + PORT);
 });
 
 server.on('message', function (message, remote) {
@@ -35,7 +36,6 @@ server.on('message', function (message, remote) {
 });
 
 server.bind(PORT, '0.0.0.0');
-console.log("Server running on: " +  ip_addr + " : " + PORT);
 
 /*
 app.get('/', function (req, res) {
