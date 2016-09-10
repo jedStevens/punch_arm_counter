@@ -25,6 +25,7 @@ app.get('/get', function (req, res) {
 app.get('/inc', function (req, res) {
     trump_count+=req.query.trump;
     hillary_count+=req.query.hillary;
+    console.log(req.query.trump);
     res.send(trump_count+","+hillary_count);
 });
 
