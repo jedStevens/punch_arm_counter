@@ -1,41 +1,34 @@
 var express = require('express');
 var app = express();
 
-var trump_count = 2796;
-var hillary_count = 7899;
+var trump_count = 2796
+var hillary_count = 7899
 
-var PORT = process.env.PORT;
+var PORT = process.env.PORT
 var HOST = '127.0.0.1';
 
 var dgram = require('dgram');
 var server = dgram.createSocket('udp4');
 
-const publicIp = require('public-ip');
-var ip_addr = '';
- 
-publicIp.v4().then(ip => {
-    console.log(ip);
-    //=> '46.5.21.123' 
-    ip_addr = ip;
-});
- 
-publicIp.v6().then(ip => {
-    console.log(ip);
-    //=> 'fe80::200:f8ff:fe21:67cf' 
-});
-
 server.on('listening', function () {
     var address = server.address();
-    console.log('UDP Server listening on ' + ip_addr + ":" + address.port);
-    console.log('Getting environment variable for port: ' + PORT);
+    console.log('UDP Server listening on ' + address.address + ":" + address.port);
 });
 
 server.on('message', function (message, remote) {
-    console.log(remote.address + ':' + remote.port +' - ' + message);
+    var message_str = String(message)
 
+    if (message == "PING"){
+        console.log("Ping from: " + remote.address + ':' + remote.port);
+        server.send("PING", remote.port, remote.address);
+        return;
+    }
+    
 });
 
-server.bind(PORT, '0.0.0.0');
+server.bind(PORT, HOST);
+
+
 
 /*
 app.get('/', function (req, res) {
