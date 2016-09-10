@@ -30,7 +30,7 @@ app.get('/inc', function (req, res) {
 
 app.listen(PORT, function () {
   console.log('Example app listening on port: ' +PORT);
-  setInterval(saveScores, 30000);
+  //setInterval(saveScores, 30000);
 });
 
 
