@@ -1,8 +1,8 @@
 var express = require('express');
 var app = express();
 
-var trump_count = 0;
-var hillary_count = 0;
+var trump_count = 420;
+var hillary_count = 666;
 
 var PORT = process.env.PORT || 6969;
 var HOST = '0.0.0.0';
