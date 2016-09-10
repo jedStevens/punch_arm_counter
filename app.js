@@ -11,6 +11,15 @@ var dgram = require('dgram');
 var server = dgram.createSocket('udp4');
 
 
+app.get('/', function (req, res) {
+  res.send('<p>Trump: ' + trump_count + '\n\nHillary: '+hillary_count+'</p>');
+});
+
+app.listen(PORT, function () {
+  console.log('Example app listening on port: ' +PORT);
+});
+
+
 var fs = require('fs');
 fs.readFile("scores.save", function(err, data) {
     if(err) {
@@ -73,10 +82,3 @@ server.on('message', function (message, remote) {
 server.bind(PORT, '0.0.0.0');
 
 
-app.get('/', function (req, res) {
-  res.send('<p>Trump: ' + trump_count + '\n\nHillary: '+hillary_count+'</p>');
-});
-
-app.listen(PORT, function () {
-  console.log('Example app listening on port: ' +PORT);
-});
