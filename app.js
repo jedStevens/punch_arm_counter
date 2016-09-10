@@ -1,10 +1,10 @@
 var express = require('express');
 var app = express();
 
-var trump_count = 2796
-var hillary_count = 7899
+var trump_count = 2796;
+var hillary_count = 7899;
 
-var PORT = process.env.PORT
+var PORT = process.env.PORT || 6969;
 var HOST = '127.0.0.1';
 
 var dgram = require('dgram');
@@ -16,7 +16,7 @@ server.on('listening', function () {
 });
 
 server.on('message', function (message, remote) {
-    var message_str = String(message)
+    var message_str = String(message);
 
     if (message == "PING"){
         console.log("Ping from: " + remote.address + ':' + remote.port);
