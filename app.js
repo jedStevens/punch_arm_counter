@@ -2,8 +2,8 @@ var express = require('express');
 var app = express();
 var Client = require('ftp');
 
-var trump_count = 420;
-var hillary_count = 666;
+var trump_count = -1;
+var hillary_count = -1;
 
 var PORT = process.env.PORT || 6969;
 var HOST = '0.0.0.0';
