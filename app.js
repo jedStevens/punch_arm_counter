@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var Client = require('ftp');
+var fs = require('fs');
 
 var trump_count = -1;
 var hillary_count = -1;
@@ -44,35 +45,37 @@ app.listen(PORT, function () {
       }
       stream.once('close', function() { c.end(); });
       stream.pipe(fs.createWriteStream('scores.save'));
+      fs.readFile("scores.save", function(err, data) {
+        if(err) {
+            throw err;
+        }
+        data = String(data);
+        
+        var parse_t = "";
+        var parse_h = "";
+    
+        for (var i = 0; i < data.length; i++){
+            if ( i >= data.indexOf('\n')){
+                parse_h = parse_h + data.charAt(i);
+            } else {
+                parse_t = parse_t + data.charAt(i);
+            }
+        }
+        
+        trump_hits = parseInt(parse_t);
+        hillary_hits = parseInt(parse_h);
+        console.log("Total punches read: " + data);
+    }); 
+
+
+
     });
+
   });
   // connect to localhost:21 as anonymous
   c.connect({host: "blacksocks.me", user : "a7076913", password : "Python95"});
 });
 
-
-var fs = require('fs');
-fs.readFile("scores.save", function(err, data) {
-    if(err) {
-        throw err;
-    }
-    data = String(data);
-    
-    var parse_t = "";
-    var parse_h = "";
-
-    for (var i = 0; i < data.length; i++){
-        if ( i >= data.indexOf('\n')){
-            parse_h = parse_h + data.charAt(i);
-        } else {
-            parse_t = parse_t + data.charAt(i);
-        }
-    }
-    
-    trump_hits = parseInt(parse_t);
-    hillary_hits = parseInt(parse_h);
-    console.log("Total punches read: " + data);
-}); 
 
 function saveScores(){
     fs.writeFile("scores.save", trump_count+"\n"+hillary_count);
