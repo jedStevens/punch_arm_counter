@@ -80,10 +80,10 @@ app.listen(PORT, function () {
 function saveScores(){
     fs.writeFile("scores.save", trump_count+"\n"+hillary_count);
     console.log("Saved Scores");
-    setInterval(saveScores, 30000);
 };
 
 function pushScores(){
+  saveScores();
   var Client = require('ftp');
   console.log("Pushing scores");
   var c = new Client();
