@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+var Client = require('ftp');
 
 var trump_count = 420;
 var hillary_count = 666;
@@ -31,21 +32,22 @@ app.get('/inc', function (req, res) {
 
 app.listen(PORT, function () {
   console.log('Example app listening on port: ' +PORT);
-  //setInterval(saveScores, 30000);
+  setInterval(pushScores, 60000);
 
-  var Client = require('ftp');
-  var fs = require('fs');
 
   var c = new Client();
   c.on('ready', function() {
     c.get('/public_html/cornhole/scores.save', function(err, stream) {
-      if (err) throw err;
+      if (err){
+        console.log(err);
+        throw err;
+      }
       stream.once('close', function() { c.end(); });
       stream.pipe(fs.createWriteStream('scores.save'));
     });
   });
   // connect to localhost:21 as anonymous
-  c.connect({host: "blacksocks.me"});
+  c.connect({host: "blacksocks.me", user : "a7076913", password : "Python95"});
 });
 
 
@@ -76,4 +78,18 @@ function saveScores(){
     fs.writeFile("scores.save", trump_count+"\n"+hillary_count);
     console.log("Saved Scores");
     setInterval(saveScores, 30000);
+};
+
+function pushScores(){
+  var Client = require('ftp');
+
+  var c = new Client();
+  c.on('ready', function() {
+    c.put('scores.save', '/public_html/cornhole/scores.save', function(err) {
+      if (err) throw err;
+      c.end();
+      setInterval(pushScores, 60000);
+    });
+  });
+  c.connect({host: "blacksocks.me", user : "a7076913", password : "Python95"});
 };
