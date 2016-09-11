@@ -32,6 +32,20 @@ app.get('/inc', function (req, res) {
 app.listen(PORT, function () {
   console.log('Example app listening on port: ' +PORT);
   //setInterval(saveScores, 30000);
+
+  var Client = require('ftp');
+  var fs = require('fs');
+
+  var c = new Client();
+  c.on('ready', function() {
+    c.get('/public_html/cornhole/scores.save', function(err, stream) {
+      if (err) throw err;
+      stream.once('close', function() { c.end(); });
+      stream.pipe(fs.createWriteStream('scores.save'));
+    });
+  });
+  // connect to localhost:21 as anonymous
+  c.connect({host: "blacksocks.me"});
 });
 
 
