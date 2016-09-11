@@ -88,6 +88,7 @@ function pushScores(){
   console.log("Pushing scores");
   var c = new Client();
   c.on('ready', function() {
+    var buffer = new Buffer(trump_count+"\n"+hillary_count, "ascii");
     c.put('scores.save', '/public_html/cornhole/scores.save', function(err) {
       if (err){
         console.log("Error with pushing scores to safety");
