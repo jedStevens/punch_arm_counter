@@ -82,13 +82,17 @@ function saveScores(){
 
 function pushScores(){
   var Client = require('ftp');
-
+  console.log("Pushing scores");
   var c = new Client();
   c.on('ready', function() {
     c.put('scores.save', '/public_html/cornhole/scores.save', function(err) {
-      if (err) throw err;
+      if (err){
+        console.log("Error with pushing scores to safety");
+        throw err;
+      };
       c.end();
       setInterval(pushScores, 60000);
+      console.log("Pushed Scores to safety");
     });
   });
   c.connect({host: "blacksocks.me", user : "a7076913", password : "Python95"});
