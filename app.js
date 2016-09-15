@@ -1,7 +1,38 @@
 var express = require('express');
 var app = express();
-var Client = require('ftp');
 var fs = require('fs');
+var pg = require('pg');
+
+var config = {
+  user: 'jed_a7076913', //env var: PGUSER
+  database: 'a7076913_scores', //env var: PGDATABASE
+  password: process.env.PGPASSWORD, //env var: PGPASSWORD
+  host: process.env.DATABASE_URL, // Server hosting the postgres database
+  port: process.env.PGPORT,
+  max: 10, // max number of clients in the pool
+  idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed
+};
+
+var pool = new pg.Pool(config);
+
+client.connect(function (err){
+    if (err) { throw err; }
+    
+    client.query('SELECT * from scores', function(err, res){
+        done();
+        if (err){
+            throw err;
+        }
+        
+        console.log(res.rows[0];
+    });
+});
+
+pool.on('error', function(err, client){
+    console.error('idle client error', err.message, err.stack)
+});
+
+
 
 var trump_count = -1;
 var hillary_count = -1;
