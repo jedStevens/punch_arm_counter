@@ -3,39 +3,17 @@ var app = express();
 var fs = require('fs');
 var pg = require('pg');
 
-var config = {
-  user: 'jed_a7076913', //env var: PGUSER
-  database: 'a7076913_scores', //env var: PGDATABASE
-  password: process.env.PGPASSWORD, //env var: PGPASSWORD
-  host: process.env.DATABASE_URL || "1.2.3.4", // Server hosting the postgres database
-  port: process.env.PGPORT,
-  max: 10, // max number of clients in the pool
-  idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed
-};
+pg.defaults.ssl = true;
+pg.connect(process.env.DATABASE_URL, function(err, client) {
+  if (err) throw err;
+  console.log('Connected to postgres! Getting schemas...');
 
-var pool = new pg.Pool(config);
-
-pool.connect(function (err, client, done){
-    if (err) {
-        console.log(err);
-        throw err;
-    }
-    
-    client.query('SELECT * from scores', function(err, res){
-        done();
-        if (err){
-            console.log(err);
-            throw err;
-        }
-        
-        console.log(res.rows[0]);
+  client
+    .query('SELECT table_schema,table_name FROM information_schema.tables;')
+    .on('row', function(row) {
+      console.log(JSON.stringify(row));
     });
 });
-
-pool.on('error', function(err, client){
-    console.error('idle client error', err.message, err.stack)
-});
-
 
 
 var trump_count = -1;
