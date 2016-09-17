@@ -9,7 +9,7 @@ var hillary_count = -1;
 
 var connectionString = process.env.SCORE_DB_URL;
 var client = new pg.Client(connectionString);
-//client.connect();
+client.connect();
 
 var PORT = process.env.PORT || 6969;
 var HOST = '0.0.0.0';
