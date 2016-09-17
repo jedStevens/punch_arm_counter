@@ -26,10 +26,8 @@ app.get('/', function (req, res) {
     if (!result){
       return res.send('No data found');
     }
-    else{
-      res.send('<p>Trump: ' + trump_count + '\n\nHillary: '+hillary_count+'</p>');
-    }
   });
+  res.send('<p>Trump: ' + trump_count + '\n\nHillary: '+hillary_count+'</p>');
 });
 
 app.get('/gloryhole', function (req, res) {
