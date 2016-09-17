@@ -1,31 +1,34 @@
 var express = require('express');
 var app = express();
 var fs = require('fs');
-var pg = require('pg');
-
-pg.defaults.ssl = true;
-pg.connect(process.env.DATABASE_URL, function(err, client) {
-  if (err) throw err;
-  console.log('Connected to postgres! Getting schemas...');
-
-  client.query('SELECT table_schema,table_name FROM HEROKU_POSTGRESQL_JADE;')
-    .on('row', function(row) {
-      console.log(JSON.stringify(row));
-    });
-});
+var pg = require('pg').native;
 
 
 var trump_count = -1;
 var hillary_count = -1;
 
+
+var connectionString = process.env.DATABASE_URL;
+var client = new pg.Client(connectionString);
+client.connect();
+
 var PORT = process.env.PORT || 6969;
 var HOST = '0.0.0.0';
 
-var dgram = require('dgram');
-var server = dgram.createSocket('udp4');
-
 app.get('/', function (req, res) {
-  res.send('<p>Trump: ' + trump_count + '\n\nHillary: '+hillary_count+'</p>');
+  client.query('INSERT INTO count(trump) VALUES($1)', 123);
+
+  var query = client.query('SELECT * FROM count');
+  query.on('row', function(result) {
+    console.log(result);
+    
+    if (!result){
+      return res.send('No data found');
+    }
+    else{
+      res.send('<p>Trump: ' + trump_count + '\n\nHillary: '+hillary_count+'</p>');
+    }
+  });
 });
 
 app.get('/gloryhole', function (req, res) {
