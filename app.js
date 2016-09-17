@@ -15,7 +15,7 @@ var PORT = process.env.PORT || 6969;
 var HOST = '0.0.0.0';
 
 app.get('/', function (req, res) {
-  client.query('INSERT INTO scores(trump) VALUES($1)', 123);
+  client.query('INSERT INTO scores(trump) VALUES($1)', [123]);
 
   var query = client.query('SELECT * FROM scores');
   query.on('row', function(result) {
