@@ -7,7 +7,7 @@ var pg = require('pg');
 var trump_count = -1;
 var hillary_count = -1;
 
-var connectionString = process.env.DATABASE_URL;
+var connectionString = process.env.SCORE_DB_URL;
 var client = new pg.Client(connectionString);
 //client.connect();
 
