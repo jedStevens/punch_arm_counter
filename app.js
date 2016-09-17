@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 var fs = require('fs');
-var pg = require('pg').native;
+var pg = require('pg');
 
 
 var trump_count = -1;
