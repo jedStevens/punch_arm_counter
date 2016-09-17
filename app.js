@@ -7,10 +7,9 @@ var pg = require('pg');
 var trump_count = -1;
 var hillary_count = -1;
 
-
 var connectionString = process.env.DATABASE_URL;
 var client = new pg.Client(connectionString);
-client.connect();
+//client.connect();
 
 var PORT = process.env.PORT || 6969;
 var HOST = '0.0.0.0';
