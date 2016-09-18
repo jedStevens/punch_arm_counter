@@ -4,8 +4,8 @@ var fs = require('fs');
 var pg = require('pg');
 
 
-var trump_count = -1;
-var hillary_count = -1;
+var trump_count = 0;
+var hillary_count = 0;
 
 var connectionString = process.env.SCORE_DB_URL;
 var client = new pg.Client(connectionString);
@@ -74,6 +74,7 @@ function saveScores(){
     console.log("Result: " + JSON.stringify(result));
     if (result.trump){
         _t += parseInt(result.trump);
+        console.log("adding _t: " + _t);
     }
     if (result.hillary){
         _h += parseInt(result.hillary);
