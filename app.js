@@ -42,13 +42,13 @@ app.get('/get', function (req, res) {
 app.get('/inc', function (req, res) {
 
     var to_add_t = 0;
-    if (!req.query.trump){
+    if (req.query.trump != undefined){
         to_add_t = parseInt(req.query.trump);
     }
     trump_count_new+=to_add_t;
     
     var to_add_h = 0;
-    if (!req.query.hillary){
+    if (!req.query.hillary != undefined){
         to_add_h = parseInt(req.query.hillary);
     }
     hillary_count_new+=to_add_h;
