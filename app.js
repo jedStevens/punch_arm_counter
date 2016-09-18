@@ -63,8 +63,8 @@ function saveScores(){
   var query = client.query('SELECT * FROM scores');
   query.on('row', function(result) {
     console.log("Result: " + JSON.stringify(result));
-    _t += result.trump;
-    _h += result.hillary;
+    _t += parseInt(result.trump || 0);
+    _h += parseInt(result.hillary || 0);
     if (!result){
       return res.send('No data found');
     }
