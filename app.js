@@ -72,11 +72,11 @@ function saveScores(){
   var query = client.query('SELECT * FROM scores');
   query.on('row', function(result) {
     console.log("Result: " + JSON.stringify(result));
-    if (result.trump){
+    if (result.trump != undefined){
         _t += parseInt(result.trump);
         console.log("adding _t: " + _t);
     }
-    if (result.hillary){
+    if (result.hillary != undefined){
         _h += parseInt(result.hillary);
     }
     if (!result){
