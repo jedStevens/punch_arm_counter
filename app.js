@@ -17,16 +17,6 @@ var PORT = process.env.PORT || 6969;
 var HOST = '0.0.0.0';
 
 app.get('/', function (req, res) {
-
-  var query = client.query('SELECT * FROM scores');
-  query.on('row', function(result) {
-    console.log("Result: " + JSON.stringify(result));
-    
-    if (!result){
-      return res.send('No data found');
-    }
-  });
-
   res.send('<p>Trump: ' + trump_count + '\n\nHillary: '+hillary_count+'</p>');
 });
 
@@ -35,7 +25,6 @@ app.get('/gloryhole', function (req, res) {
 });
 
 app.get('/get', function (req, res) {
-    console.log("IS SENDING: " + trump_count + ", " + hillary_count);
     res.send(trump_count+","+hillary_count);
 });
 
@@ -60,8 +49,10 @@ app.get('/inc', function (req, res) {
 
 app.listen(PORT, function () {
   console.log('Example app listening on port: ' +PORT);
+
+  maintainDB();
+
   saveScores();
-  setInterval(saveScores, 60000);
 });
 
 
@@ -92,16 +83,36 @@ function saveScores(){
 
 
   console.log("Saved Scores: " + [trump_count, hillary_count]);
+
+  setInterval(saveScores, 60000);
 };
 
 function maintainDB(){
 
-  trump_count = _t;
-  hillary_count = _h;
+  query = client.query('SELECT SUM(trump) FROM scores');
+  query.on('row', function(result) {
+    console.log("Result TRUMP SUM: " + JSON.stringify(result));
+    if (!result){
+      return res.send('No data found');
+    } else {
+        trump_count = parseInt(result.sum)
+    }
+  });
 
-  query = client.query('DELETE FROM scores;');
-};
+  query = client.query('SELECT SUM(hillary) FROM scores');
+  query.on('row', function(result) {
+    console.log("Result HILLARY SUM: " + JSON.stringify(result));
+    if (!result){
+      return res.send('No data found');
+    } else {
+        hillary_count = parseInt(result.sum)
+    }
+  });
 
-function pushScores(){
-    console.log("save scores here");
+  query.on('drain', function(result){
+    query = client.query('DELETE FROM scores;');
+    query = client.query('INSERT INTO scores(trump, hillary) VALUES($1,$2);', [trump_count, hillary_count]);
+  });
+
+  setInterval(maintainDB, 60000);
 };
