@@ -71,18 +71,22 @@ function saveScores(){
   trump_count_new = 0;
   hillary_count_new = 0;
 
-  var _t = 0;
-  var _h = 0;
-
   query = client.query('SELECT SUM(trump) FROM scores');
   query.on('row', function(result) {
     console.log("Result TRUMP SUM: " + JSON.stringify(result));
+    if (!result){
+      return res.send('No data found');
+    } else {
+        trump_count = parseInt(result.sum)
+    }
   });
   query = client.query('SELECT SUM(hillary) FROM scores');
   query.on('row', function(result) {
     console.log("Result HILLARY SUM: " + JSON.stringify(result));
     if (!result){
       return res.send('No data found');
+    } else {
+        hillary_count = parseInt(result.sum)
     }
   });
 
