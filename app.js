@@ -51,7 +51,7 @@ app.get('/inc', function (req, res) {
 
 app.listen(PORT, function () {
   console.log('Example app listening on port: ' +PORT);
-  setInterval(pushScores, 60000);
+  setInterval(saveScores, 60000);
 });
 
 
