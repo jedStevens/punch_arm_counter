@@ -87,8 +87,6 @@ function saveScores(){
   });
 
 
-  query.on('drain', function(
-  
   console.log("Saved Scores: " + [trump_count, hillary_count]);
 };
 
