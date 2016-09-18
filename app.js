@@ -3,9 +3,11 @@ var app = express();
 var fs = require('fs');
 var pg = require('pg');
 
-
 var trump_count = 0;
 var hillary_count = 0;
+
+var trump_count_new = 0;
+var hillary_count_new = 0;
 
 var connectionString = process.env.SCORE_DB_URL;
 var client = new pg.Client(connectionString);
@@ -43,15 +45,15 @@ app.get('/inc', function (req, res) {
         to_add_t = parseInt(req.query.trump);
     }
 
-    trump_count+=to_add_t;
+    trump_count_new+=to_add_t;
     
     if (!req.query.hillary){
         to_add_h = parseInt(req.query.hillary);
     }
     
-    hillary_count+=to_add_h;
+    hillary_count_new+=to_add_h;
 
-    client.query('INSERT INTO scores(trump,hillary) VALUES($1,$2)', [to_add_t,to_add_h]);
+    client.query('INSERT INTO scores(trump,hillary) VALUES($1,$2)', [trump_count_new,hillary_count_new]);
 
     res.send(trump_count+","+hillary_count);
 });
@@ -64,38 +66,38 @@ app.listen(PORT, function () {
 
 
 function saveScores(){
-    fs.writeFile("scores.save", trump_count+"\n"+hillary_count);
+  query = client.query('INSERT INTO scores(trump,hillary) VALUES($1,$2)',[trump_count_new,hillary_count_new]);
+
+  trump_count_new = 0;
+  hillary_count_new = 0;
 
   var _t = 0;
   var _h = 0;
 
-  var query = client.query('SELECT * FROM scores');
+  query = client.query('SELECT SUM(trump) FROM scores');
   query.on('row', function(result) {
-    console.log("Result: " + JSON.stringify(result));
-    if (result.trump != undefined){
-        _t += parseInt(result.trump);
-        console.log("adding _t: " + _t);
-    } else {
-        console.log("Found null entry for trump");
-    }
-    if (result.hillary != undefined){
-        _h += parseInt(result.hillary);
-    } else {
-        console.log("Found null entry for hillary");
-    }
+    console.log("Result TRUMP SUM: " + JSON.stringify(result));
+  });
+  query = client.query('SELECT SUM(hillary) FROM scores');
+  query.on('row', function(result) {
+    console.log("Result HILLARY SUM: " + JSON.stringify(result));
     if (!result){
       return res.send('No data found');
     }
   });
 
+
+  query.on('drain', function(
+  
+  console.log("Saved Scores: " + [trump_count, hillary_count]);
+};
+
+function maintainDB(){
+
   trump_count = _t;
   hillary_count = _h;
 
-  query = client.query('DELETE * FROM scores;');
-
-  query = client.query('INSERT INTO scores(trump,hillary) VALUES($1,$2)',[trump_count,hillary_count]);
-  
-  console.log("Saved Scores: " + [trump_count, hillary_count]);
+  query = client.query('DELETE FROM scores;');
 };
 
 function pushScores(){
