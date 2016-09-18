@@ -72,8 +72,12 @@ function saveScores(){
   var query = client.query('SELECT * FROM scores');
   query.on('row', function(result) {
     console.log("Result: " + JSON.stringify(result));
-    _t += parseInt(result.trump || 0);
-    _h += parseInt(result.hillary || 0);
+    if (result.trump){
+        _t += parseInt(result.trump);
+    }
+    if (result.hillary){
+        _h += parseInt(result.hillary);
+    }
     if (!result){
       return res.send('No data found');
     }
@@ -85,7 +89,8 @@ function saveScores(){
   query = client.query('DELETE FROM scores;');
 
   query = client.query('INSERT INTO scores(trump,hillary) VALUES($1,$2)',[trump_count,hillary_count]);
-    console.log("Saved Scores");
+  
+  console.log("Saved Scores: " + [trump_count, hillary_count]);
 };
 
 function pushScores(){
