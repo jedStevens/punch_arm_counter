@@ -67,7 +67,8 @@ app.listen(PORT, function () {
 function saveScores(){
     fs.writeFile("scores.save", trump_count+"\n"+hillary_count);
 
-  var _t, _h = 0;
+  var _t = 0;
+  var _h = 0;
 
   var query = client.query('SELECT * FROM scores');
   query.on('row', function(result) {
