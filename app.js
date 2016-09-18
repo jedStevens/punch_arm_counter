@@ -35,6 +35,7 @@ app.get('/gloryhole', function (req, res) {
 });
 
 app.get('/get', function (req, res) {
+    console.log("IS SENDING: " + trump_count + ", " + hillary_count);
     res.send(trump_count+","+hillary_count);
 });
 
