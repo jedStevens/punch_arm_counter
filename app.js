@@ -41,20 +41,19 @@ app.get('/get', function (req, res) {
 
 app.get('/inc', function (req, res) {
 
-    var to_add_t, to_add_h = 0;
+    var to_add_t = 0;
     if (!req.query.trump){
         to_add_t = parseInt(req.query.trump);
     }
-
     trump_count_new+=to_add_t;
     
+    var to_add_h = 0;
     if (!req.query.hillary){
         to_add_h = parseInt(req.query.hillary);
     }
-    
     hillary_count_new+=to_add_h;
 
-    client.query('INSERT INTO scores(trump,hillary) VALUES($1,$2)', [trump_count_new,hillary_count_new]);
+    client.query('INSERT INTO scores(trump,hillary) VALUES($1,$2)', [to_add_t, to_add_h]);
 
     res.send(trump_count+","+hillary_count);
 });
