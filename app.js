@@ -39,8 +39,8 @@ app.get('/get', function (req, res) {
 
 app.get('/inc', function (req, res) {
 
-    trump_count+=parseInt(req.query.trump);
-    hillary_count+=parseInt(req.query.hillary);
+    trump_count+=parseInt(req.query.trump || 0);
+    hillary_count+=parseInt(req.query.hillary || 0);
 
     client.query('INSERT INTO scores(trump,hillary) VALUES($1,$2)', [trump_count,hillary_count]);
 
