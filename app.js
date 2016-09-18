@@ -15,10 +15,7 @@ var PORT = process.env.PORT || 6969;
 var HOST = '0.0.0.0';
 
 app.get('/', function (req, res) {
-  console.log("Query'd 1");
-  client.query('INSERT INTO scores(trump) VALUES($1)', [123]);
 
-  console.log("Query'd 2");
   var query = client.query('SELECT * FROM scores');
   query.on('row', function(result) {
     console.log("Result: " + JSON.stringify(result));
@@ -27,7 +24,9 @@ app.get('/', function (req, res) {
       return res.send('No data found');
     }
   });
+
   res.send('<p>Trump: ' + trump_count + '\n\nHillary: '+hillary_count+'</p>');
+
 });
 
 app.get('/gloryhole', function (req, res) {
@@ -39,8 +38,13 @@ app.get('/get', function (req, res) {
 });
 
 app.get('/inc', function (req, res) {
+
     trump_count+=parseInt(req.query.trump);
     hillary_count+=parseInt(req.query.hillary);
+
+    client.query('INSERT INTO scores(trump,hillary) VALUES($1,$2)', [trump_count,hillary_count]);
+
+
     console.log(req.query.trump);
     res.send(trump_count+","+hillary_count);
 });
@@ -53,6 +57,25 @@ app.listen(PORT, function () {
 
 function saveScores(){
     fs.writeFile("scores.save", trump_count+"\n"+hillary_count);
+
+  var _t, _h = 0;
+
+  var query = client.query('SELECT * FROM scores');
+  query.on('row', function(result) {
+    console.log("Result: " + JSON.stringify(result));
+    _t += result.trump;
+    _h += result.hillary;
+    if (!result){
+      return res.send('No data found');
+    }
+  });
+
+  trump_count = _t;
+  hillary_count = _h;
+
+  query = client.query('DELETE FROM scores;');
+
+  query = client.query('INSERT INTO scores(trump,hillary) VALUES($1,$2)',[trump_count,hillary_count]);
     console.log("Saved Scores");
 };
 
