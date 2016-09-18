@@ -75,9 +75,13 @@ function saveScores(){
     if (result.trump != undefined){
         _t += parseInt(result.trump);
         console.log("adding _t: " + _t);
+    } else {
+        console.log("Found null entry for trump");
     }
     if (result.hillary != undefined){
         _h += parseInt(result.hillary);
+    } else {
+        console.log("Found null entry for hillary");
     }
     if (!result){
       return res.send('No data found');
