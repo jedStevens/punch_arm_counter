@@ -21,7 +21,7 @@ app.get('/', function (req, res) {
   console.log("Query'd 2");
   var query = client.query('SELECT * FROM scores');
   query.on('row', function(result) {
-    console.log("Result: " + result.trump);
+    console.log("Result: " + JSON.stringify(result));
     
     if (!result){
       return res.send('No data found');
