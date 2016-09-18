@@ -26,7 +26,6 @@ app.get('/', function (req, res) {
   });
 
   res.send('<p>Trump: ' + trump_count + '\n\nHillary: '+hillary_count+'</p>');
-
 });
 
 app.get('/gloryhole', function (req, res) {
@@ -92,7 +91,7 @@ function saveScores(){
   trump_count = _t;
   hillary_count = _h;
 
-  query = client.query('DELETE FROM scores;');
+  query = client.query('DELETE * FROM scores;');
 
   query = client.query('INSERT INTO scores(trump,hillary) VALUES($1,$2)',[trump_count,hillary_count]);
   
