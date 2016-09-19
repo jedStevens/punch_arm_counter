@@ -110,7 +110,7 @@ function maintainDB(){
   });
 
   query.on('drain', function(result){
-    query = client.query('DELETE FROM scores;');
+    query = client.query('TRUNCATE TABLE scores;');
     query = client.query('INSERT INTO scores(trump, hillary) VALUES($1,$2);', [trump_count, hillary_count]);
   });
 
