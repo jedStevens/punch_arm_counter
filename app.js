@@ -89,7 +89,7 @@ function saveScores(){
 
 function maintainDB(){
 
-  query = client.query('SELECT SUM(trump) FROM scores');
+  var query = client.query('SELECT SUM(trump) FROM scores');
   query.on('row', function(result) {
     console.log("Result TRUMP SUM: " + JSON.stringify(result));
     if (!result){
@@ -111,6 +111,7 @@ function maintainDB(){
   query = client.query('TRUNCATE TABLE scores;');
 
   query.on('drain', function(result){
+    console.log('Saving the scores: '+ trump_count + ', '+ hillary_count);
     query = client.query('INSERT INTO scores(trump, hillary) VALUES($1,$2);', [trump_count, hillary_count]);
   });
 
