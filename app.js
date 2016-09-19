@@ -108,9 +108,9 @@ function maintainDB(){
         hillary_count = parseInt(result.sum)
     }
   });
+    query = client.query('TRUNCATE TABLE scores;');
 
   query.on('drain', function(result){
-    query = client.query('TRUNCATE TABLE scores;');
     query.on('drain', function(result){
         console.log('Saving the scores: '+ trump_count + ', '+ hillary_count);
         query = client.query('INSERT INTO scores(trump, hillary) VALUES($1,$2);', [trump_count, hillary_count]);
