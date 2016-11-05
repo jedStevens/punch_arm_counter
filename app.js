@@ -36,20 +36,45 @@ app.get('/clear', function (req, res) {
 
 app.get('/inc', function (req, res) {
 
+/*
+
     var to_add_t = 0;
     if (req.query.trump != undefined){
-        to_add_t = parseInt(req.query.trump);
+        try {
+            to_add_t = parseInt(req.query.trump);
+        } catch(err) {
+            to_add_t = 0
+        }
     }
     trump_count_new+=to_add_t;
     
     var to_add_h = 0;
     if (!req.query.hillary != undefined){
-        to_add_h = parseInt(req.query.hillary);
+        try {
+            to_add_h = parseInt(req.query.hillary);
+        } catch(err) {
+            to_add_h = 0
+        }
     }
     hillary_count_new+=to_add_h;
 
     client.query('INSERT INTO scores(trump,hillary) VALUES($1,$2)', [to_add_t, to_add_h]);
+*/
+    var to_add_t = 0;
+    var to_add_h = 0;
 
+    try {
+        to_add_h = parseInt(req.query.hillary);
+    } catch(err) {
+        to_add_h = 0
+    }
+    try {
+        to_add_h = parseInt(req.query.hillary);
+    } catch(err) {
+        to_add_h = 0
+    }
+    trump_count += to_add_t;
+    hillary_count += to_add_h;    
     res.send(trump_count+","+hillary_count);
 });
 
