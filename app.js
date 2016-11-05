@@ -30,6 +30,7 @@ app.get('/get', function (req, res) {
 });
 
 app.get('/clear', function (req, res) {
+    res.send("Cleared DB");
     query = client.query('TRUNCATE TABLE scores;');
 });
 
