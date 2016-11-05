@@ -64,9 +64,10 @@ app.get('/inc', function (req, res) {
     var to_add_h = 0;
 
     try {
-        to_add_h = parseInt(req.query.hillary);
+        console.log('req.query.trump=' + req.query.trump);
+        to_add_t = parseInt(req.query.trump);
     } catch(err) {
-        to_add_h = 0
+        to_add_t = 0
     }
     try {
         to_add_h = parseInt(req.query.hillary);
@@ -74,7 +75,7 @@ app.get('/inc', function (req, res) {
         to_add_h = 0
     }
     trump_count += to_add_t;
-    hillary_count += to_add_h;    
+    hillary_count += to_add_h;
     res.send(trump_count+","+hillary_count);
 });
 
