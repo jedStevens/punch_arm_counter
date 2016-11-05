@@ -88,6 +88,7 @@ app.listen(PORT, function () {
 
 
 function saveScores(){
+/*
   query = client.query('INSERT INTO scores(trump,hillary) VALUES($1,$2)',[trump_count_new,hillary_count_new]);
 
   trump_count_new = 0;
@@ -116,6 +117,7 @@ function saveScores(){
   console.log("Saved Scores: " + [trump_count, hillary_count]);
 
   setInterval(saveScores, 60000);
+*/
 };
 
 function maintainDB(){
