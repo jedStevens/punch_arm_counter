@@ -121,7 +121,7 @@ function saveScores(){
 };
 
 function maintainDB(){
-
+/*
   var query = client.query('SELECT SUM(trump) FROM scores');
   query.on('row', function(result) {
     console.log("Result TRUMP SUM: " + JSON.stringify(result));
@@ -151,4 +151,5 @@ function maintainDB(){
   });
 
   setInterval(maintainDB, 60000);
+*/
 };
