@@ -29,6 +29,10 @@ app.get('/get', function (req, res) {
     res.send(trump_count+","+hillary_count);
 });
 
+app.get('/clear', function (req, res) {
+    query = client.query('TRUNCATE TABLE scores;');
+});
+
 app.get('/inc', function (req, res) {
 
     var to_add_t = 0;
