@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var fs = require('fs');
 var pg = require('pg');
+var nr = require('newrelic');
 
 var trump_count = 0;
 var hillary_count = 0;
